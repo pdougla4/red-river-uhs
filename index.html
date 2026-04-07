@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Red River Hydrogen Storage</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --und-green: #00843D;
+      --und-green-dark: #005C2B;
+      --und-green-light: #1a9e52;
+      --und-gold: #C8A951;
+      --bg: #0a0f0d;
+      --surface: #101810;
+      --surface2: #162116;
+      --border: #1e3028;
+      --text: #e8f0eb;
+      --muted: #7a9985;
+      --mono: 'IBM Plex Mono', monospace;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Source Sans 3', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,132,61,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,132,61,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 80px 48px 64px;
+      border-bottom: 1px solid var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--und-green-light);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.15;
+      color: var(--text);
+      max-width: 820px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.25s;
+    }
+
+    h1 span {
+      color: var(--und-green-light);
+    }
+
+    .subtitle {
+      margin-top: 20px;
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 600px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.4s;
+    }
+
+    .meta-row {
+      display: flex;
+      gap: 32px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s ease forwards 0.55s;
+    }
+
+    .meta-item {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .meta-item strong {
+      color: var(--und-gold);
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    /* ── MAIN ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px 80px;
+    }
+
+    /* ── SECTION HEADERS ── */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--und-green);
+      border-left: 2px solid var(--und-green);
+      padding-left: 12px;
+      margin-bottom: 28px;
+      margin-top: 72px;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 680px) {
+      .about-grid { grid-template-columns: 1fr; }
+      header, main { padding-left: 24px; padding-right: 24px; }
+    }
+
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+
+    .about-card h3 {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--und-green-light);
+      margin-bottom: 12px;
+    }
+
+    .about-card p {
+      font-size: 0.93rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .index-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .index-list li {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      padding: 6px 10px;
+      border-left: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .index-list li .tag {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 2px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--border);
+      color: var(--und-green);
+    }
+
+    /* ── FILE BROWSER ── */
+    .folder {
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .folder-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      background: var(--surface);
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
+
+    .folder-header:hover { background: var(--surface2); }
+
+    .folder-icon {
+      font-size: 14px;
+      transition: transform 0.25s ease;
+    }
+
+    .folder.open .folder-icon { transform: rotate(90deg); }
+
+    .folder-name {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .folder-count {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .folder-contents {
+      display: none;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+
+    .folder.open .folder-contents { display: block; }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 11px 20px 11px 44px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+
+    .file-item:last-child { border-bottom: none; }
+    .file-item:hover { background: var(--surface); }
+
+    .file-ext {
+      font-family: var(--mono);
+      font-size: 9px;
+      padding: 2px 5px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      min-width: 34px;
+      text-align: center;
+    }
+
+    .ext-pdf { background: #2a1a0a; color: #e07a30; border: 1px solid #3d2510; }
+    .ext-png { background: #0a1a2a; color: #3096e0; border: 1px solid #102535; }
+    .ext-py  { background: #0a1a0a; color: #50c878; border: 1px solid #0f2a10; }
+    .ext-placeholder { background: var(--border); color: var(--muted); border: 1px solid var(--border); }
+
+    .file-name {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .file-desc {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .placeholder-badge {
+      font-family: var(--mono);
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 2px;
+      background: rgba(200, 169, 81, 0.1);
+      color: var(--und-gold);
+      border: 1px solid rgba(200,169,81,0.2);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── TEAM ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .team-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 24px 20px;
+      transition: border-color 0.2s;
+    }
+
+    .team-card:hover { border-color: var(--und-green); }
+
+    .team-card.mine { border-left: 2px solid var(--und-green); }
+
+    .team-name {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .team-role {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .team-links {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .team-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      padding: 7px 12px;
+      border-radius: 3px;
+      text-decoration: none;
+      transition: all 0.15s;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .btn-linkedin {
+      background: rgba(0,132,61,0.12);
+      color: var(--und-green-light);
+      border: 1px solid rgba(0,132,61,0.25);
+    }
+
+    .btn-linkedin:hover {
+      background: rgba(0,132,61,0.22);
+      border-color: var(--und-green);
+    }
+
+    .btn-vcard {
+      background: rgba(200,169,81,0.08);
+      color: var(--und-gold);
+      border: 1px solid rgba(200,169,81,0.2);
+    }
+
+    .btn-vcard:hover {
+      background: rgba(200,169,81,0.15);
+    }
+
+    .btn-pending {
+      background: var(--border);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      cursor: default;
+      opacity: 0.6;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 32px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .und-badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--und-green);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate { opacity: 0; animation: fadeUp 0.6s ease forwards; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">GEOE 484/485 — Senior Capstone &nbsp;·&nbsp; University of North Dakota &nbsp;·&nbsp; Harold Hamm School of Geology & Geological Engineering</div>
+  <h1>Red River <span>Hydrogen Storage:</span> Operating Envelope and CO₂-EOR Transition</h1>
+  <p class="subtitle">Safe injection operating envelopes for underground hydrogen storage in the Red River Formation, Williston Basin — constrained by transient reservoir modeling, laboratory characterization, and uncertainty quantification.</p>
+  <div class="meta-row">
+    <div class="meta-item"><strong>Formation</strong>Red River Fm. — Williston Basin</div>
+    <div class="meta-item"><strong>Well</strong>Stecker 23-3 (API 33-033-00310-00-00)</div>
+    <div class="meta-item"><strong>Field</strong>Hoot Owl Field, ND</div>
+    <div class="meta-item"><strong>Horizon</strong>2025 – 2065 (30 yr)</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ABOUT -->
+  <div class="section-label">Project Overview</div>
+  <div class="about-grid">
+    <div class="about-card">
+      <h3>Objective</h3>
+      <p>Deliver an operator-ready Safe Operating Envelope (SOE) in injection rate (q) vs. temperature differential (ΔT) space for underground hydrogen storage in the Red River Formation, using the Stecker 23-3 well as the primary data anchor.</p>
+    </div>
+    <div class="about-card">
+      <h3>Safety Framework</h3>
+      <p>Four pseudo-coupled safety indices govern the envelope: AIG (Anhydrite Integrity Guard), RMG (Reservoir Mechanical Guard), and PGN (capillary seal / fingering stability). A No-False-Green policy enforces P90 conservative boundaries — regions near thresholds derate to amber or red.</p>
+    </div>
+    <div class="about-card">
+      <h3>Modeling Stack</h3>
+      <p>Warren-Root dual-porosity + heat kernel (Python) as the primary engine; CMG/GEM for validation anchors. Uncertainty quantification via LHS → Morris screening → Sobol analysis on a reduced parameter set.</p>
+    </div>
+    <div class="about-card">
+      <h3>CO₂-EOR Transition</h3>
+      <p>A secondary sub-project evaluates the Red River Formation as a dual-use target: underground hydrogen storage paired with CO₂-enhanced oil recovery. CMG/GEM compositional simulation anchors the EOR component.</p>
+    </div>
+  </div>
+
+  <!-- FILE BROWSER -->
+  <div class="section-label">Project Files</div>
+
+  <!-- Poster -->
+  <div class="folder" id="folder-poster">
+    <div class="folder-header" onclick="toggleFolder('folder-poster')">
+      <span class="folder-icon">▶</span>
+      <span class="folder-name">Poster</span>
+      <span class="folder-count">1 file</span>
+    </div>
+    <div class="folder-contents">
+      <div class="file-item">
+        <span class="file-ext ext-placeholder">PDF</span>
+        <span class="file-name">GEOE485_Poster_Final.pdf</span>
+        <span class="placeholder-badge">Coming Soon</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report -->
+  <div class="folder" id="folder-report">
+    <div class="folder-header" onclick="toggleFolder('folder-report')">
+      <span class="folder-icon">▶</span>
+      <span class="folder-name">Final Report</span>
+      <span class="folder-count">1 file</span>
+    </div>
+    <div class="folder-contents">
+      <div class="file-item">
+        <span class="file-ext ext-placeholder">PDF</span>
+        <span class="file-name">GEOE485_Final_Report.pdf</span>
+        <span class="placeholder-badge">Coming Soon</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Figures -->
+  <div class="folder open" id="folder-figures">
+    <div class="folder-header" onclick="toggleFolder('folder-figures')">
+      <span class="folder-icon">▶</span>
+      <span class="folder-name">Figures</span>
+      <span class="folder-count">6 files</span>
+    </div>
+    <div class="folder-contents">
+      <a class="file-item" href="figures/binding_map.png" target="_blank">
+        <span class="file-ext ext-png">PNG</span>
+        <span class="file-name">binding_map.png</span>
+        <span class="file-desc">Mechanism binding map — q vs ΔT</span>
+      </a>
+      <a class="file-item" href="figures/sa_thorough_ST_bars_overall.png" target="_blank">
+        <span class="file-ext ext-png">PNG</span>
+        <span class="file-name">sa_thorough_ST_bars_overall.png</span>
+        <span class="file-desc">Sobol ST — Overall (Joint Margin)</span>
+      </a>
+      <a class="file-item" href="figures/sa_thorough_ST_bars_pgn.png" target="_blank">
+        <span class="file-ext ext-png">PNG</span>
+        <span class="file-name">sa_thorough_ST_bars_pgn.png</span>
+        <span class="file-desc">Sobol ST — PGN (Capillary Seal)</span>
+      </a>
+      <a class="file-item" href="figures/sa_thorough_ST_bars_aig.png" target="_blank">
+        <span class="file-ext ext-png">PNG</span>
+        <span class="file-name">sa_thorough_ST_bars_aig.png</span>
+        <span class="file-desc">Sobol ST — AIG (Anhydrite Integrity)</span>
+      </a>
+      <a class="file-item" href="figures/sa_thorough_ST_bars_rmg.png" target="_blank">
+        <span class="file-ext ext-png">PNG</span>
+        <span class="file-name">sa_thorough_ST_bars_rmg.png</span>
+        <span class="file-desc">Sobol ST — RMG (Reservoir Mechanical)</span>
+      </a>
+      <div class="file-item">
+        <span class="file-ext ext-placeholder">PNG</span>
+        <span class="file-name">p90_margin_surface.png</span>
+        <span class="placeholder-badge">Coming Soon</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Code -->
+  <div class="folder" id="folder-code">
+    <div class="folder-header" onclick="toggleFolder('folder-code')">
+      <span class="folder-icon">▶</span>
+      <span class="folder-name">Code</span>
+      <span class="folder-count">7 files</span>
+    </div>
+    <div class="folder-contents">
+      <a class="file-item" href="code/kernels.py" target="_blank">
+        <span class="file-ext ext-py">PY</span>
+        <span class="file-name">kernels.py</span>
+        <span class="file-desc">AIG, RMG, PGN safety index kernels</span>
+      </a>
+      <a class="file-item" href="code/generate_envelope_transient.py" target="_blank">
+        <span class="file-ext ext-py">PY</span>
+        <span class="file-name">generate_envelope_transient.py</span>
+        <span class="file-desc">Envelope generation — transient WR+heat</span>
+      </a>
+      <a class="file-item" href="code/sensitivity_analysis.py" target="_blank">
+        <span class="file-ext ext-py">PY</span>
+        <span class="file-name">sensitivity_analysis.py</span>
+        <span class="file-desc">Morris → Sobol UQ pipeline</span>
+      </a>
+      <a class="file-item" href="code/warren_root_pressure.py" target="_blank">
+        <span class="file-ext ext-py">PY</span>
+        <span class="file-name">warren_root_pressure.py</span>
+        <span class="file-desc">Warren-Root dual-porosity pressure solver</span>
+      </a>
+      <a class="file-item" href="code/uq_runner.py" target="_blank">
+        <span class="file-ext ext-py">PY</span>
+        <span class="file-name">uq_runner.py</span>
+        <span class="file-desc">UQ batch runner + parallel executor</span>
+      </a>
+      <a class="file-item" href="code/priors.json" target="_blank">
+        <span class="file-ext ext-py">JSON</span>
+        <span class="file-name">priors.json</span>
+        <span class="file-desc">Parameter prior distributions</span>
+      </a>
+      <a class="file-item" href="code/corpus_generator.py" target="_blank">
+        <span class="file-ext ext-py">PY</span>
+        <span class="file-name">corpus_generator.py</span>
+        <span class="file-desc">Surrogate training corpus generator</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- TEAM -->
+  <div class="section-label">Team</div>
+  <div class="team-grid">
+
+    <!-- Peter -->
+    <div class="team-card mine">
+      <div class="team-name">Peter Douglas</div>
+      <div class="team-role">Operating Envelope / UQ</div>
+      <div class="team-links">
+        <a class="team-btn btn-linkedin" href="https://www.linkedin.com/in/peteradouglas" target="_blank">
+          ↗ LinkedIn
+        </a>
+        <button class="team-btn btn-vcard" onclick="downloadVCard()">
+          ⬇ Download vCard
+        </button>
+      </div>
+    </div>
+
+    <!-- Paul -->
+    <div class="team-card">
+      <div class="team-name">Paul Helms</div>
+      <div class="team-role">Geology / CO₂-EOR</div>
+      <div class="team-links">
+        <span class="team-btn btn-pending">LinkedIn — Coming Soon</span>
+      </div>
+    </div>
+
+    <!-- Caitlin -->
+    <div class="team-card">
+      <div class="team-name">Caitlin Hecker</div>
+      <div class="team-role">Lab — NMR / Amott</div>
+      <div class="team-links">
+        <span class="team-btn btn-pending">LinkedIn — Coming Soon</span>
+      </div>
+    </div>
+
+    <!-- Delaney -->
+    <div class="team-card">
+      <div class="team-name">Delaney Vargas</div>
+      <div class="team-role">Lab — Permeability</div>
+      <div class="team-links">
+        <span class="team-btn btn-pending">LinkedIn — Coming Soon</span>
+      </div>
+    </div>
+
+    <!-- Chase -->
+    <div class="team-card">
+      <div class="team-name">Chase Russell</div>
+      <div class="team-role">Core Sampling</div>
+      <div class="team-links">
+        <span class="team-btn btn-pending">LinkedIn — Coming Soon</span>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  <p>GEOE 484/485 Senior Capstone &nbsp;·&nbsp; University of North Dakota &nbsp;·&nbsp; Spring 2025</p>
+  <span class="und-badge">UND · Harold Hamm School</span>
+</footer>
+
+<script>
+  function toggleFolder(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function downloadVCard() {
+    const vcf = `BEGIN:VCARD
+VERSION:3.0
+FN:Peter Douglas
+N:Douglas;Peter;;;
+ORG:University of North Dakota;Harold Hamm School of Geology & Geological Engineering
+TITLE:Geological Engineering Student
+TEL;TYPE=CELL:(303) 905-7770
+EMAIL;TYPE=INTERNET:peter.douglas@und.edu
+URL:https://www.linkedin.com/in/peteradouglas
+END:VCARD`;
+    const blob = new Blob([vcf], { type: 'text/vcard' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'peter_douglas.vcf';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // Animate elements on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.about-card, .folder, .team-card').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(12px)';
+    el.style.transition = `opacity 0.5s ease ${i * 0.06}s, transform 0.5s ease ${i * 0.06}s`;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
