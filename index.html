@@ -9,14 +9,14 @@
     :root {
       --und-green: #00843D;
       --und-green-dark: #005C2B;
-      --und-green-light: #1a9e52;
+      --und-green-light: #007a38;
       --und-gold: #C8A951;
-      --bg: #0a0f0d;
-      --surface: #101810;
-      --surface2: #162116;
-      --border: #1e3028;
-      --text: #e8f0eb;
-      --muted: #7a9985;
+      --bg: #ffffff;
+      --surface: #f4f7f5;
+      --surface2: #eaf0ec;
+      --border: #d0ddd6;
+      --text: #0a0f0d;
+      --muted: #3d5a48;
       --mono: 'IBM Plex Mono', monospace;
       --serif: 'Playfair Display', Georgia, serif;
       --sans: 'Source Sans 3', sans-serif;
@@ -41,8 +41,8 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(rgba(0,132,61,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,132,61,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(0,132,61,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,132,61,0.07) 1px, transparent 1px);
       background-size: 48px 48px;
       pointer-events: none;
       z-index: 0;
@@ -74,14 +74,14 @@
       font-size: clamp(2rem, 5vw, 3.6rem);
       font-weight: 900;
       line-height: 1.15;
-      color: var(--text);
+      color: var(--und-green);
       max-width: 820px;
       opacity: 0;
       animation: fadeUp 0.7s ease forwards 0.25s;
     }
 
     h1 span {
-      color: var(--und-green-light);
+      color: var(--und-green);
     }
 
     .subtitle {
@@ -437,12 +437,6 @@
   <div class="eyebrow">GEOE 484/485 — Senior Capstone &nbsp;·&nbsp; University of North Dakota &nbsp;·&nbsp; Harold Hamm School of Geology & Geological Engineering</div>
   <h1>Red River <span>Hydrogen Storage:</span> Operating Envelope and CO₂-EOR Transition</h1>
   <p class="subtitle">Safe injection operating envelopes for underground hydrogen storage in the Red River Formation, Williston Basin — constrained by transient reservoir modeling, laboratory characterization, and uncertainty quantification.</p>
-  <div class="meta-row">
-    <div class="meta-item"><strong>Formation</strong>Red River Fm. — Williston Basin</div>
-    <div class="meta-item"><strong>Well</strong>Stecker 23-3 (API 33-033-00310-00-00)</div>
-    <div class="meta-item"><strong>Field</strong>Hoot Owl Field, ND</div>
-    <div class="meta-item"><strong>Horizon</strong>2025 – 2065 (30 yr)</div>
-  </div>
 </header>
 
 <main>
