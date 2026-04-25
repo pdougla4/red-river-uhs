@@ -1,0 +1,80 @@
+{
+  "caprock_anhydrite": {
+    "E_GPa": [55.0, 80.0],
+    "nu": [0.2, 0.3],
+    "alpha_T_perK": [1e-05, 1.5e-05],
+    "UCS_MPa": [70.0, 110.0],
+    "T_tensile_MPa": [7.0,11.0],
+    "alpha_m2s": [1.5e-06, 3.5e-06],
+    "chi_confinement": [0.1, 0.4],
+    "pressure_transmission_frac": [0.3, 0.6],
+    "tau_cool_days": [30.0, 300.0],
+    "tau_warm_days": [100.0, 500.0],
+    "H2_stiffening_frac": [0.104, 0.183],
+    "H2_strength_reduction_frac": [0.05, 0.12],
+    "T_tensile_MPa": [7.0, 11.0]
+  },
+  "reservoir_carbonate": {
+    "E_GPa": [30.0, 50.0],
+    "nu": [0.15, 0.35],
+    "alpha_T_perK": [6e-06, 1.3e-05],
+    "T_tensile_MPa": [7.0, 12.0],
+    "T_tensile_damaged_MPa": [3.5, 6.0],
+    "chi_confinement": [0.1, 0.6],
+    "tau_cool_days": [30.0, 300.0],
+    "tau_warm_days": [100.0, 500.0],
+    "H2_stiffening_frac": [0.017, 0.114],
+    "H2_strength_reduction_frac": [0.04, 0.1]
+  },
+  "well": {
+    "PI_m3day_per_MPa": [250.0, 450.0],
+    "skin": [0.0, 2.0],
+    "P_res_MPa": [34.0, 40.0],
+    "T_res_C": [120.0, 160.0],
+    "plume_injectivity_factor": [0.5, 1.0],
+    "cap_thickness_m": [5.0, 12.0],
+    "reservoir_standoff_m": [5.0, 12.0]
+  },
+  "PGN_capillary": {
+    "phi_porosity_frac": [0.005, 0.02],
+    "IFT_mN_per_m": [35.0, 45.0],
+    "IFT_scale_dT_perC": [-0.3, -0.1],
+    "IFT_scale_dSal_perM": [0.5, 3.0],
+    "contact_angle_deg": [25.0, 60.0],
+    "dtheta_H2_deg": [0.0, 15.0],
+    "salinity_M": [0.8, 3.0],
+    "log10_pore_throat_radius_caprock": [-8.3, -7.6],
+    "log10_pore_throat_radius_reservoir": [-7.0, -5.5],
+    "vug_weakening_factor": [0.9, 1.0],
+    "fracture_weakening_factor": [0.9, 1.0],
+    "bc_lambda": [1.0, 4.0],
+    "Sw_irr": [0.1, 0.35],
+    "Sw_face": [0.7, 0.95]
+  },
+  "CMG_stability": {
+    "k_md": [0.25, 2.5],
+    "phi_frac": [0.05, 0.2],
+    "mu_H2_cP": [0.01, 0.02],
+    "mu_brine_cP": [0.3, 0.5],
+    "kr_H2_end": [0.3, 0.9],
+    "kr_brine_end": [0.1, 0.5],
+    "r_w_m": [0.08, 0.15],
+    "h_perf_m": [5.0, 20.0],
+    "M_ref": [175, 400],
+    "w_M": [0.5, 0.9],
+    "Ca_ref": [1e-20, 1e-19],
+    "w_Ca": [0.8, 1.5],
+    "w_blend": [0.5, 0.6],
+    "f_min": [0.45, 0.6]
+  },
+  "temperature_coupling": {
+    "dE_dT_GPa_per_C_caprock": [-0.04, -0.01],
+    "dE_dT_GPa_per_C_reservoir": [-0.03, -0.01],
+    "embrittlement_factor_per_10C_caprock": [0.08, 0.16],
+    "embrittlement_factor_per_10C_reservoir": [0.06, 0.12]
+  },
+  "warren_root_transient": {
+    "omega_storativity": [0.05, 0.5],
+    "tau_exchange_days": [10.0, 500.0]
+  }
+}

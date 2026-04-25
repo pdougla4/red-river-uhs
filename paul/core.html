@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Core Characterization — Stecker 23-3 Capstone</title>
+<meta name="description" content="Physical core samples from the Laird Core Library used to characterize the Red River Formation for dual-phase H₂/CO₂-EOR simulation." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --paper: #f2ede4;
+    --paper-dark: #e8e1d3;
+    --ink: #1a1612;
+    --ink-soft: #3a332a;
+    --ink-mute: #6b5f50;
+    --rule: #2a241c;
+    --accent: #8b2c0d;
+    --accent-deep: #5c1c07;
+    --highlight: #c9a978;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(139, 44, 13, 0.035) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 80%, rgba(201, 169, 120, 0.04) 0%, transparent 50%);
+    color: var(--ink);
+    font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.05 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  main { position: relative; z-index: 2; max-width: 1180px; margin: 0 auto; padding: 2rem 2rem 6rem; }
+
+  .breadcrumb {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 1rem;
+  }
+  .breadcrumb a { color: var(--accent); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+
+  header.masthead {
+    border-bottom: 1.5px solid var(--rule);
+    padding-bottom: 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  header.masthead::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -5px;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+  }
+
+  h1.title {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 144;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 600;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+  h1.title em {
+    font-style: italic;
+    color: var(--accent-deep);
+    font-weight: 500;
+  }
+
+  .subtitle {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 52rem;
+    margin-top: 0.4rem;
+  }
+
+  section { margin-top: 4.5rem; }
+  section:first-of-type { margin-top: 0; }
+
+  h2.section-head {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 48;
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+  h2.section-head .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    padding: 2px 8px;
+    border: 1px solid var(--accent);
+  }
+
+  p.prose {
+    max-width: 52rem;
+    margin: 0.8rem 0;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  .lede {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 52rem;
+    margin: 0 0 2rem;
+    line-height: 1.65;
+  }
+  .lede .drop {
+    float: left;
+    font-size: 3.5rem;
+    line-height: 0.85;
+    padding: 0.3rem 0.6rem 0 0;
+    font-weight: 600;
+    color: var(--accent-deep);
+    font-variation-settings: 'opsz' 144;
+  }
+
+  /* ——— CORE FIGURE GRID ——— */
+  .figure-grid {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .figure-grid.two-up {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .figure-grid.three-up {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  figure {
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+    max-height: 520px;
+  }
+  figure img:hover { transform: scale(1.015); }
+
+  figcaption {
+    padding: 1rem 1.25rem 1.1rem;
+    border-top: 1px solid var(--rule);
+  }
+  figcaption .fig-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  figcaption .fig-label .well {
+    color: var(--ink-mute);
+  }
+  figcaption h3 {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 48;
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+  }
+  figcaption .fig-desc {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* ——— CORE DATA TABLE ——— */
+  .well-table {
+    width: 100%;
+    margin: 1.5rem 0 2rem;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+  }
+  .well-table thead th {
+    text-align: left;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1.5px solid var(--rule);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 700;
+    background: rgba(139, 44, 13, 0.04);
+  }
+  .well-table tbody td {
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid rgba(42, 36, 28, 0.15);
+    color: var(--ink-soft);
+    vertical-align: top;
+  }
+  .well-table tbody tr:hover { background: rgba(139, 44, 13, 0.04); }
+  .well-table .well-id { color: var(--accent-deep); font-weight: 700; }
+
+  /* ——— LIGHTBOX ——— */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 8, 6, 0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 2rem;
+    cursor: zoom-out;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border: 1px solid var(--rule);
+  }
+  .lightbox .close-hint {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--paper);
+    opacity: 0.7;
+  }
+
+  /* ——— RESPONSIVE ——— */
+  @media (max-width: 780px) {
+    main { padding: 1.5rem 1.25rem 4rem; }
+    .figure-grid.two-up, .figure-grid.three-up {
+      grid-template-columns: 1fr;
+    }
+    figure img { max-height: 400px; }
+    h2.section-head {
+      font-size: 1.4rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+
+  a { color: var(--accent-deep); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { color: var(--accent); }
+
+  .footnote {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+    line-height: 1.7;
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<main>
+  <div class="breadcrumb"><a href="../index.html">← Back to overview</a></div>
+
+  <header class="masthead">
+    <div class="eyebrow">Capstone — Laboratory Phase</div>
+    <h1 class="title">The <em>actual rock</em>. Before the simulation, there was core.</h1>
+    <p class="subtitle">Photographs from the Wilson M. Laird Core and Sample Library, documenting the Red River Formation samples used to parameterize the reservoir model. Three offset wells, multiple core intervals, and the full lab workflow from slab to plug.</p>
+  </header>
+
+  <section>
+    <h2 class="section-head">Why cores matter <span class="label">Methodology</span></h2>
+    <p class="lede"><span class="drop">N</span>o reservoir simulation is better than the rock properties it's built on. CMG GEM will happily accept any porosity and permeability numbers you hand it, and it will dutifully compute saturation fields and pressure responses from those inputs without ever knowing whether your rock is right. Getting the rock right means going to the core library, pulling physical samples, and running laboratory measurements on them.</p>
+
+    <p class="prose">This capstone drew on core samples from three Red River wells archived at the University of North Dakota's Wilson M. Laird Core and Sample Library: the Stecker 23-3 well itself (NDIC #22569) in Golden Valley County, plus two wells well outside the immediate Stecker area — #6798 up in Divide County on the basin's northern margin, and #14070 down in Bowman County near the Cedar Creek Anticline in the southwest corner of the state. Rather than sampling only the capstone well or only its immediate neighbors, this three-county spread samples the Red River across a substantial portion of its productive range in North Dakota. If the rock properties measured at all three locations are mutually consistent, that consistency is evidence of formation-scale rock behavior, not site-specific artifact. Stecker 23-3 anchors the simulation to the specific wellbore being modeled; #6798 and #14070 independently constrain the regional framework.</p>
+  </section>
+
+  <section>
+    <h2 class="section-head">A and B zones <span class="label">Red River Targets</span></h2>
+    <p class="prose">The Red River Formation isn't a single homogeneous unit — it's a stacked carbonate sequence with multiple productive benches separated by tighter intervals and anhydrite stringers. This project targets the <strong>Red River A zone</strong> and <strong>Red River B zone</strong>, the two intervals with the best combination of porosity, permeability, and effective sealing from overlying anhydrite layers. Core samples were specifically selected from both zones so that lab measurements would constrain properties for the simulation grid's A-zone and B-zone layers independently.</p>
+
+    <p class="prose">Lab-code suffixes on the working-set sticky notes reflect this zone targeting directly: <strong>AR</strong> denotes A-zone Red River samples, <strong>BR</strong> denotes B-zone Red River samples. Additional suffixes (CR, CS, S) on individual labels reference the lab team's internal tracking for plug type, slab condition, and intended analytical workflow.</p>
+  </section>
+
+  <section>
+    <h2 class="section-head">Source wells <span class="label">Three counties, 196 miles</span></h2>
+    <p class="prose">The three wells span a substantial portion of the Red River's productive extent across North Dakota. This isn't a sampling of convenience — sampling from a single wellbore or a tight geographic cluster would risk characterizing local diagenesis rather than formation-scale rock properties. Spreading samples from Divide County in the northwest corner of the state, through Golden Valley County in the west-central basin, down to Bowman County in the southwestern corner covers 196.6 mi end-to-end (measured between well #6798 and well #14070) and means the lab measurements reflect Red River properties across its full basinal-to-flank range.</p>
+
+    <figure style="margin: 2rem 0; max-width: 100%;">
+      <img src="images/core/WellLocations_Map.jpg" alt="Map of North Dakota showing the three well locations: #6798 in Divide County (north), #22569 Stecker 23-3 in Golden Valley County (west-central), and #14070 in Bowman County (southwest)" style="max-height: none; width: 100%; cursor: zoom-in;" />
+      <figcaption>
+        <div class="fig-label"><span>Figure · Well Locations</span><span class="well">NDIC GIS</span></div>
+        <h3>Three Red River wells spanning the basin</h3>
+        <p class="fig-desc">Well #6798 in Divide County sits on the basin margin near the Canadian border; Stecker 23-3 (#22569) in Golden Valley County is in the west-central basin; well #14070 in Bowman County is in the southwestern corner near the Cedar Creek Anticline trend. Depth-to-Red-River varies substantially across this span — from ~8,463 ft in Bowman up to ~11,700 ft in Golden Valley — reflecting regional structural position rather than anything about the formation's intrinsic properties.</p>
+      </figcaption>
+    </figure>
+
+    <table class="well-table">
+      <thead>
+        <tr><th style="width: 20%">NDIC File</th><th style="width: 20%">County</th><th style="width: 18%">Red River Depth</th><th>Sampled Intervals (ft)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="well-id">#22569 (Stecker 23-3)</td><td>Golden Valley</td><td>~11,732 ft</td><td>11,754 (AR) · 11,780 · 11,786 · 11,788 · 11,793</td></tr>
+        <tr><td class="well-id">#6798</td><td>Divide</td><td>~11,236 ft</td><td>11,236 · 11,239 · 11,273 · 11,275 (CR)</td></tr>
+        <tr><td class="well-id">#14070</td><td>Bowman</td><td>~8,463 ft</td><td>8,463 (BR) · 8,476</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2 class="section-head">The working set <span class="label">Field Samples</span></h2>
+    <p class="prose">Before any cutting or plug drilling, the full core sample set was laid out to confirm identity, orientation, and sample count. Each slab is labeled with the NDIC file number, depth, and box number from the core library archive. The lab notebook labels include "TOP" arrows to preserve stratigraphic orientation.</p>
+
+    <div class="figure-grid two-up">
+      <figure>
+        <img src="images/core/WorkingSet_ShippingBox_overview.jpg" alt="Cardboard shipping box full of core slab samples at the Laird Library" />
+        <figcaption>
+          <div class="fig-label"><span>Figure 1</span><span class="well">Three wells · Multiple depths</span></div>
+          <h3>Working set on arrival at the lab</h3>
+          <p class="fig-desc">Core slabs as received from the Laird archive, grouped by well and depth. The mix of dark Red River dolomite with laminated carbonate-argillaceous intervals is evident even through the packing material.</p>
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="images/core/WorkingSet_LabTable_layout.jpg" alt="Core slab samples laid out on a lab table with labels" />
+        <figcaption>
+          <div class="fig-label"><span>Figure 2</span><span class="well">Laid out for inspection</span></div>
+          <h3>Complete sample inventory</h3>
+          <p class="fig-desc">Every slab photographed against a neutral lab-table background with sticky-note labels confirming NDIC number, depth, and box number. Top row includes the Stecker 23-3 samples; bottom row includes the offset wells #6798 and #14070.</p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-head">Core plug preparation <span class="label">Hassler / NMR workflow</span></h2>
+    <p class="prose">Plugs are cylindrical sub-samples drilled from slab cores with a water-cooled diamond bit. The geometry (typically 1″ diameter × 1–2″ long) is what Hassler cell permeability testers, NMR T₂ spectrometers, and porosimeters all expect as input. Plug orientation is preserved vertical to bedding so measured permeability corresponds to the <em>k<sub>v</sub></em> used in the simulation's grid.</p>
+
+    <div class="figure-grid two-up">
+      <figure>
+        <img src="images/core/Core_14070_8463ft_HasslerPlugPrep.jpg" alt="Freshly-drilled core slab with two plug holes and the two extracted plugs drying" />
+        <figcaption>
+          <div class="fig-label"><span>Figure 3</span><span class="well">#14070 · 8,463 ft · Red River B</span></div>
+          <h3>Plug drilling in progress</h3>
+          <p class="fig-desc">Two plugs have just been extracted from this Red River B-zone slab of the #14070 offset well. The freshly-exposed core surface glistens with cooling water from the diamond bit. The plugs themselves (bottom of frame) will go into Hassler cell permeability testing.</p>
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="images/core/Core_22569_11793ft_NMRplugs.jpg" alt="Two core plugs from Stecker 23-3 at 11,793 ft" />
+        <figcaption>
+          <div class="fig-label"><span>Figure 4</span><span class="well">#22569 · 11,793 ft</span></div>
+          <h3>Stecker 23-3 Red River plugs</h3>
+          <p class="fig-desc">Two vertical plugs drilled from Box 33 of the Stecker core. These are the actual rock samples whose porosity and permeability numbers propagate into the CMG simulation's grid cells for the wellbore neighborhood.</p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-head">Red River in hand <span class="label">Intact intervals</span></h2>
+    <p class="prose">Whole-round and slab samples across the Red River interval show the formation's characteristic features: laminated to bioturbated carbonate, occasional fractures, color variation from light gray to near-black depending on organic content and dolomitization. These are the rock textures the simulation is trying to represent abstractly as grid-cell properties.</p>
+
+    <div class="figure-grid two-up">
+      <figure>
+        <img src="images/core/Core_22569_11754ft_REDRiver_fracture.jpg" alt="Two core plugs from the Red River A zone with a fracture visible" />
+        <figcaption>
+          <div class="fig-label"><span>Figure 5</span><span class="well">#22569 · 11,754 ft · Red River A</span></div>
+          <h3>A-zone whole-round plugs with observed fracture</h3>
+          <p class="fig-desc">Two whole-round plugs from Stecker 23-3 in the Red River A zone — one of the two target intervals for the dual-phase storage framework. The left specimen shows a natural fracture at the top, a reminder that real reservoir rock is anisotropic and heterogeneous in ways the 20×40×8 simulation grid can only approximate with effective properties.</p>
+        </figcaption>
+      </figure>
+
+      <figure>
+        <img src="images/core/Core_6798_11273ft_foilwrapped.jpg" alt="Aluminum-foil-wrapped core slab being unwrapped, with smaller plugs in view" />
+        <figcaption>
+          <div class="fig-label"><span>Figure 6</span><span class="well">#6798 · 11,273 ft · Box 24</span></div>
+          <h3>Offset well #6798, wrapped for preservation</h3>
+          <p class="fig-desc">Aluminum foil is used to preserve core samples from air-drying and dust contamination between handling sessions. The smaller plugs below have already been extracted from this or an adjacent slab, and are ready for laboratory testing. Offset well #6798 provides framework for the Stecker simulation by documenting the lateral extent of Red River facies.</p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-head">How this feeds the simulation <span class="label">From core to code</span></h2>
+    <p class="prose">The laboratory results from these core samples become inputs to the CMG GEM reservoir simulation you see in the <a href="../index.html">movies</a>. The chain is straightforward but worth making explicit:</p>
+
+    <ol style="max-width: 52rem; margin: 1rem 0 1.5rem 1.5rem; color: var(--ink-soft); line-height: 1.7;">
+      <li style="margin-bottom: 0.6rem;">Core plugs → Hassler cell → permeability (k<sub>v</sub>, in millidarcies)</li>
+      <li style="margin-bottom: 0.6rem;">Core plugs → NMR T<sub>2</sub> spectrometer → pore size distribution and porosity (φ, in percent)</li>
+      <li style="margin-bottom: 0.6rem;">Plug geometry + brine saturation → electrical resistivity / Archie parameters</li>
+      <li style="margin-bottom: 0.6rem;">Measured φ and k values → populated into the CMG GEM grid-cell property distributions</li>
+      <li>Simulation runs produce the saturation and pressure movies on the <a href="../index.html">main page</a></li>
+    </ol>
+
+    <p class="prose">In other words: every colored pixel you see in the Red River simulation movies traces back, in part, to measurements on rock you can see in the photographs on this page. The simulation is only as good as the rock that fed it, and the rock that fed it came from real wells drilled into real formations by real operators, cored and archived for decades, and re-measured by this capstone team for this specific question about dual-phase storage and recovery.</p>
+  </section>
+
+  <div class="footnote">
+    <p>Core samples accessed under visiting researcher arrangements at the Wilson M. Laird Core and Sample Library, Department of Mineral Resources, University of North Dakota, Grand Forks.</p>
+    <p style="margin-top: 0.5rem;">Photographs: Paul Helms, 2025. Lab characterization work supported by team members Peter Douglas, Delaney Vargas, Caitlin Hecker, and Parker McDermott, under supervision of Dr. Dongmei Wang.</p>
+  </div>
+
+</main>
+
+<!-- Lightbox for full-size image viewing -->
+<div class="lightbox" id="lightbox">
+  <div class="close-hint">Tap or press ESC to close</div>
+  <img id="lightboxImg" src="" alt="" />
+</div>
+
+<script>
+  // Simple lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+
+  document.querySelectorAll('figure img').forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  lightbox.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+
+</body>
+</html>

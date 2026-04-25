@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stecker 23-3 — Dual-Phase H₂ / CO₂-EOR Simulations</title>
+<meta name="description" content="CMG GEM reservoir simulation movies for dual-phase underground hydrogen storage and CO₂-EOR in the Red River Formation. Stecker 23-3, Hoot Owl Field, Golden Valley County, ND." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --paper: #f2ede4;
+    --paper-dark: #e8e1d3;
+    --ink: #1a1612;
+    --ink-soft: #3a332a;
+    --ink-mute: #6b5f50;
+    --rule: #2a241c;
+    --accent: #8b2c0d;       /* oxidized iron — Red River stained dolomite */
+    --accent-deep: #5c1c07;
+    --highlight: #c9a978;    /* pale ochre — outcrop in sunlight */
+    --shadow: rgba(26, 22, 18, 0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(139, 44, 13, 0.035) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 80%, rgba(201, 169, 120, 0.04) 0%, transparent 50%);
+    color: var(--ink);
+    font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+    font-optical-sizing: auto;
+    font-size: 17px;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+
+  /* subtle paper grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.05 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  main { position: relative; z-index: 2; }
+
+  /* ——— HEADER ——— */
+  header.masthead {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem 2.5rem;
+    border-bottom: 1.5px solid var(--rule);
+    position: relative;
+  }
+  header.masthead::after {
+    content: '';
+    position: absolute;
+    left: 2rem; right: 2rem; bottom: -5px;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+  }
+
+  h1.title {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 144;
+    font-size: clamp(2.1rem, 5vw, 3.8rem);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+  h1.title em {
+    font-style: italic;
+    color: var(--accent-deep);
+    font-weight: 500;
+  }
+
+  .subtitle {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--ink-soft);
+    max-width: 48rem;
+    margin-top: 0.4rem;
+    font-weight: 400;
+  }
+
+  .meta-row {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem 3rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .meta-row dt {
+    color: var(--ink-soft);
+    font-weight: 500;
+    display: inline;
+  }
+  .meta-row dd {
+    display: inline;
+    margin-left: 0.5rem;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .meta-row > div {
+    border-left: 1.5px solid var(--accent);
+    padding-left: 0.9rem;
+  }
+
+  /* ——— CONTENT ——— */
+  .content {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+  }
+
+  section { margin-top: 4.5rem; }
+  section:first-child { margin-top: 2.5rem; }
+
+  h2.section-head {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 48;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+  }
+  h2.section-head .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 500;
+    padding: 2px 8px;
+    border: 1px solid var(--accent);
+    border-radius: 0;
+  }
+
+  .lede {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+    max-width: 52rem;
+    margin: 1rem 0 2.5rem;
+    line-height: 1.65;
+  }
+  .lede .drop {
+    float: left;
+    font-size: 3.5rem;
+    line-height: 0.85;
+    padding: 0.3rem 0.6rem 0 0;
+    font-weight: 600;
+    color: var(--accent-deep);
+    font-variation-settings: 'opsz' 144;
+  }
+
+  p.prose {
+    max-width: 52rem;
+    margin: 1rem 0;
+    color: var(--ink-soft);
+  }
+
+  /* ——— VIDEO GRID ——— */
+  .video-grid {
+    display: grid;
+    gap: 2.5rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    margin-top: 2rem;
+  }
+
+  .video-card {
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    padding: 1.25rem;
+    position: relative;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .video-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px var(--shadow);
+  }
+
+  .video-card .card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .video-card .card-label .rate {
+    color: var(--ink-mute);
+  }
+
+  .video-card h3 {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 48;
+    font-weight: 600;
+    font-size: 1.35rem;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+
+  .video-card video {
+    width: 100%;
+    display: block;
+    background: #000;
+    border: 1px solid var(--rule);
+    aspect-ratio: 16 / 9;
+  }
+  /* Phase 1 videos have a different native aspect ratio (3024x1654 ≈ 16:8.75) */
+  .phase-1 .video-card video { aspect-ratio: 3024 / 1654; }
+  /* Phase 2 videos are 1740x386 — very wide */
+  .phase-2 .video-card video { aspect-ratio: 1740 / 386; }
+
+  .video-card .caption {
+    margin-top: 0.85rem;
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .video-card .caption strong {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--accent-deep);
+  }
+
+  /* ——— WELL DOSSIER ——— */
+  .dossier {
+    margin-top: 2rem;
+    border: 1.5px solid var(--rule);
+    background: var(--paper-dark);
+    padding: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+  .dossier dt {
+    padding: 0.55rem 1.3rem 0.55rem 1.5rem;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid rgba(42, 36, 28, 0.15);
+    color: var(--ink-mute);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    background: rgba(139, 44, 13, 0.04);
+  }
+  .dossier dd {
+    padding: 0.55rem 1.5rem;
+    border-bottom: 1px solid rgba(42, 36, 28, 0.15);
+    color: var(--ink);
+  }
+  .dossier > div:last-child dt,
+  .dossier > div:last-child dd { border-bottom: none; }
+
+  .dossier > div {
+    display: contents;
+  }
+
+  .pa-flag {
+    display: inline-block;
+    background: var(--accent);
+    color: var(--paper);
+    padding: 1px 8px;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    margin-left: 0.6rem;
+  }
+
+  /* ——— FACTORIAL TABLE ——— */
+  .factorial {
+    margin: 1.5rem 0 2rem;
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+  }
+  .factorial thead th {
+    text-align: left;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1.5px solid var(--rule);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .factorial tbody td {
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid rgba(42, 36, 28, 0.15);
+    color: var(--ink-soft);
+    vertical-align: top;
+  }
+  .factorial tbody tr:hover { background: rgba(139, 44, 13, 0.04); }
+  .factorial .rate { color: var(--accent-deep); font-weight: 700; }
+  .factorial .dash { color: var(--ink-mute); font-style: italic; font-family: 'Fraunces', serif; }
+
+  /* ——— FOOTER ——— */
+  footer {
+    max-width: 1180px;
+    margin: 5rem auto 3rem;
+    padding: 2rem;
+    border-top: 1.5px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-mute);
+    line-height: 1.7;
+  }
+  footer .credit {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem;
+    align-items: baseline;
+  }
+  footer .author {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--ink);
+  }
+  footer .place {
+    color: var(--ink-mute);
+  }
+  footer hr {
+    border: none;
+    border-top: 1px solid rgba(42, 36, 28, 0.25);
+    margin: 1.5rem 0;
+  }
+  footer .acks {
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+  }
+  footer .acks strong {
+    color: var(--ink-soft);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ——— NAVIGATION ——— */
+  nav.toc {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(242, 237, 228, 0.94);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.8rem 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  nav.toc .inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 2rem;
+    align-items: center;
+  }
+  nav.toc .brand {
+    color: var(--accent);
+    font-weight: 700;
+    margin-right: auto;
+  }
+  nav.toc a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0.2rem 0;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s;
+  }
+  nav.toc a:hover {
+    border-bottom-color: var(--accent);
+    color: var(--ink);
+  }
+
+  /* ——— RESPONSIVE ——— */
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    header.masthead { padding: 2.5rem 1.25rem 2rem; }
+    .content { padding: 2rem 1.25rem 4rem; }
+    .meta-row { gap: 1rem 1.5rem; }
+    .meta-row > div { padding-left: 0.6rem; }
+    h2.section-head {
+      font-size: 1.5rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .video-grid { grid-template-columns: 1fr; gap: 2rem; }
+    nav.toc { padding: 0.6rem 1rem; }
+    nav.toc .inner { gap: 0.3rem 1.2rem; }
+    .dossier {
+      grid-template-columns: 1fr;
+      font-size: 0.78rem;
+    }
+    .dossier dt {
+      border-right: none;
+      padding: 0.4rem 1rem 0.1rem;
+    }
+    .dossier dd {
+      padding: 0 1rem 0.5rem;
+    }
+  }
+
+  /* cite with subtle styling */
+  cite {
+    font-style: italic;
+    color: var(--ink-mute);
+    font-size: 0.88em;
+  }
+  a { color: var(--accent-deep); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<nav class="toc">
+  <div class="inner">
+    <span class="brand">Stecker 23-3</span>
+    <a href="#overview">Overview</a>
+    <a href="#phase-1">H₂ Storage</a>
+    <a href="#phase-2">CO₂-EOR</a>
+    <a href="#core">Core</a>
+    <a href="#well">Well Dossier</a>
+  </div>
+</nav>
+
+<main>
+  <header class="masthead">
+    <div class="eyebrow">GEOE 484/485 — Capstone — University of North Dakota</div>
+    <h1 class="title">Repurposing a depleted carbonate wellbore for <em>dual-phase</em> hydrogen storage and CO₂-enhanced oil recovery.</h1>
+    <p class="subtitle">Reservoir simulation movies from CMG GEM modeling of Stecker 23-3, a plugged and abandoned Red River well in the Hoot Owl Field of Golden Valley County, North Dakota.</p>
+
+    <dl class="meta-row">
+      <div><dt>Formation</dt><dd>Red River (Ordovician)</dd></div>
+      <div><dt>Location</dt><dd>Golden Valley Co., ND</dd></div>
+      <div><dt>Status</dt><dd>P&A August 2025</dd></div>
+      <div><dt>Simulator</dt><dd>CMG GEM 2025.20</dd></div>
+    </dl>
+  </header>
+
+  <div class="content">
+
+    <section id="overview">
+      <h2 class="section-head">Overview <span class="label">Why this well</span></h2>
+      <p class="lede"><span class="drop">T</span>he Williston Basin is strewn with depleted carbonate wellbores approaching economic limit — infrastructure that plug-and-abandon would retire. Stecker 23-3 is one of them. Whiting Oil and Gas spudded it in April 2012, Foundation Energy Management operated it through decline, it produced about 80,000 barrels of oil, and it was plugged and abandoned in August 2025. This project tests a framework for giving wells like Stecker a second productive life: seasonal hydrogen huff-n-puff storage during the energy transition, followed by CO₂-enhanced oil recovery that benefits from residual H₂ exposure of the reservoir rock.</p>
+
+      <p class="prose">The Red River Formation itself is a convenient proof case — a generic tight dolomitic carbonate with an anhydrite seal — not because it is exceptional, but because it isn't. The geologic criteria that make it viable (tight carbonate matrix, evaporite seal, post-depletion wellbores, documented pore/perm) also describe the Duperow, Nisku, Winnipegosis, and Stony Mountain in this basin, plus the San Andres, Madison, Hunton, and many other carbonate-evaporite systems across the mature US petroleum provinces.</p>
+
+      <h3 style="font-family: 'Fraunces', serif; font-size: 1.15rem; margin: 2.5rem 0 0.75rem; color: var(--ink); font-weight: 600;">Four-case factorial design</h3>
+      <p class="prose">A baseline CO₂-EOR simulation plus three treatment cases in which the reservoir first undergoes a fifteen-year H₂ storage operation at different injection rates. Rock property enhancement from H₂ exposure is parameterized from Aluah et al. (2025), documenting φ increases of +9.7 to +23.1% and k increases of +12.7 to +25.8% depending on saturation history.</p>
+
+      <table class="factorial">
+        <thead>
+          <tr>
+            <th style="width: 34%">Phase 1 (H₂ Storage, 15 yr)</th>
+            <th style="width: 34%">Phase 2 (CO₂-EOR, 25 yr)</th>
+            <th>What it tests</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="dash">— no prior H₂ —</td><td><strong>Case 0:</strong> Baseline</td><td>Unaltered Red River response to CO₂ flood</td></tr>
+          <tr><td><span class="rate">0.5 MMCF/day</span> huff-n-puff</td><td><strong>Case 1:</strong> 0.5 MMCF enhancement</td><td>Low-exposure dose response</td></tr>
+          <tr><td><span class="rate">2.5 MMCF/day</span> huff-n-puff</td><td><strong>Case 2:</strong> 2.5 MMCF enhancement</td><td>Medium-exposure response</td></tr>
+          <tr><td><span class="rate">5.0 MMCF/day</span> huff-n-puff</td><td><strong>Case 3:</strong> 5.0 MMCF enhancement</td><td>High-exposure response</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="phase-1" class="phase-1">
+      <h2 class="section-head">Phase 1 <span class="label">H₂ Storage — 15 yr</span></h2>
+      <p class="lede" style="font-size: 1rem;">Three hydrogen huff-n-puff injection rates in a depleted Red River reservoir. Six-month injection cycles alternate with six-month withdrawal cycles for fifteen years. Watch the plume breathe — expanding during injection, retracting during withdrawal. The residual H₂ that persists between cycles is what alters the rock and enables Phase 2's enhancement.</p>
+
+      <div class="video-grid">
+
+        <div class="video-card">
+          <div class="card-label"><span>Phase 1 — Low</span><span class="rate">0.5 MMCF/day</span></div>
+          <h3>Low-rate H₂ huff-n-puff</h3>
+          <video controls preload="metadata" playsinline>
+            <source src="movies/phase1_h2_storage/H2_0.5MMCFD_Depleted.mp4" type="video/mp4" />
+          </video>
+          <p class="caption">The plume stays tight around the wellbore. <strong>Limited lateral H₂ contact</strong> with reservoir rock, which sets an expected lower bound on Phase 2 enhancement.</p>
+        </div>
+
+        <div class="video-card">
+          <div class="card-label"><span>Phase 1 — Medium</span><span class="rate">2.5 MMCF/day</span></div>
+          <h3>Medium-rate H₂ huff-n-puff</h3>
+          <video controls preload="metadata" playsinline>
+            <source src="movies/phase1_h2_storage/H2_2.5MMCFD_Depleted.mp4" type="video/mp4" />
+          </video>
+          <p class="caption">Cyclic expansion and retraction are clearly visible at this rate. <strong>Moderate reservoir contact</strong> during each injection half-cycle.</p>
+        </div>
+
+        <div class="video-card">
+          <div class="card-label"><span>Phase 1 — High</span><span class="rate">5.0 MMCF/day</span></div>
+          <h3>High-rate H₂ huff-n-puff</h3>
+          <video controls preload="metadata" playsinline>
+            <source src="movies/phase1_h2_storage/H2_5.0MMCFD_Depleted.mp4" type="video/mp4" />
+          </video>
+          <p class="caption">Maximum lateral plume extent and longest rock contact time. <strong>Greatest expected Phase 2 enhancement</strong> — the high end of the dose-response curve.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="phase-2" class="phase-2">
+      <h2 class="section-head">Phase 2 <span class="label">CO₂-EOR — 25 yr</span></h2>
+      <p class="lede" style="font-size: 1rem;">Four CO₂-EOR simulations through the post-H₂ reservoir. A central CO₂ injector drives a flood toward two offset producers east and west. The only difference between cases is the H₂-exposure history of the rock. Monthly snapshots across twenty-five years of flooding — look for differences in plume penetration, breakthrough timing, and sweep efficiency.</p>
+
+      <div class="video-grid">
+
+        <div class="video-card">
+          <div class="card-label"><span>Case 0 — Baseline</span><span class="rate">No prior H₂</span></div>
+          <h3>Unaltered Red River</h3>
+          <video controls preload="metadata" playsinline>
+            <source src="movies/phase2_co2_eor/Case0_Baseline_NoH2.mp4" type="video/mp4" />
+          </video>
+          <p class="caption">Control case. The CO₂ flood advances through native Red River rock properties. <strong>This is the benchmark</strong> the three treatment cases must outperform.</p>
+        </div>
+
+        <div class="video-card">
+          <div class="card-label"><span>Case 1 — Low H₂</span><span class="rate">0.5 MMCF prior</span></div>
+          <h3>CO₂-EOR after 0.5 MMCF/day H₂</h3>
+          <video controls preload="metadata" playsinline>
+            <source src="movies/phase2_co2_eor/Case1_0.5MMCF_H2.mp4" type="video/mp4" />
+          </video>
+          <p class="caption">Mild enhancement from limited prior H₂ exposure. <strong>Dose-response low anchor</strong> — shows whether even small H₂ treatments move the needle.</p>
+        </div>
+
+        <div class="video-card">
+          <div class="card-label"><span>Case 2 — Medium H₂</span><span class="rate">2.5 MMCF prior</span></div>
+          <h3>CO₂-EOR after 2.5 MMCF/day H₂</h3>
+          <video controls preload="metadata" playsinline>
+            <source src="movies/phase2_co2_eor/Case2_2.5MMCF_H2.mp4" type="video/mp4" />
+          </video>
+          <p class="caption">Moderate rock property enhancement. <strong>The commercially realistic middle case</strong> — likely closest to what an operator would choose to deploy.</p>
+        </div>
+
+        <div class="video-card">
+          <div class="card-label"><span>Case 3 — High H₂</span><span class="rate">5.0 MMCF prior</span></div>
+          <h3>CO₂-EOR after 5.0 MMCF/day H₂</h3>
+          <video controls preload="metadata" playsinline>
+            <source src="movies/phase2_co2_eor/Case3_5.0MMCF_H2.mp4" type="video/mp4" />
+          </video>
+          <p class="caption">Maximum rock property enhancement scenario. <strong>Upper bound on recovery uplift</strong> achievable through the dual-phase framework as modeled.</p>
+        </div>
+
+      </div>
+
+      <p class="prose" style="margin-top: 2.5rem;"><em>Playback is 25 seconds at 30 fps in all movies. Each Phase 1 frame is a six-month reservoir snapshot (31 frames across 15 years). Each Phase 2 frame is a one-month snapshot (301 frames across 25 years).</em></p>
+
+      <div style="margin-top: 2rem; padding: 1.5rem 1.75rem; border: 1.5px solid var(--accent); background: rgba(139, 44, 13, 0.04);">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">→ Recommended</div>
+        <div style="font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.4rem;">View all four Phase 2 cases playing simultaneously</div>
+        <p style="color: var(--ink-soft); margin-bottom: 0.9rem;">The factorial comparison becomes visceral when you can watch all four CO₂-EOR plume evolutions unfold in lockstep. Same moment in reservoir time, four different rock property histories, four different sweeps.</p>
+        <a href="compare.html" style="display: inline-block; background: var(--accent); color: var(--paper); padding: 0.6rem 1.3rem; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; font-weight: 500;">Open synchronized comparison →</a>
+      </div>
+    </section>
+
+    <section id="core">
+      <h2 class="section-head">Core Samples <span class="label">Laird Core Library</span></h2>
+      <p class="prose">The reservoir simulation isn't built on theoretical rock properties — it's built on measured data from physical core samples archived at the Wilson M. Laird Core and Sample Library. Cores were sampled from three Red River wells spanning nearly 200 miles across the basin (196.6 mi from #6798 to #14070): Stecker 23-3 itself (Golden Valley County), well #6798 up in Divide County on the northern margin, and well #14070 down in Bowman County near the Cedar Creek Anticline. Samples were selected specifically from the <strong>Red River A and B zones</strong> — the two target intervals for the dual-phase storage framework, chosen for their combination of porosity, permeability, and effective anhydrite sealing.</p>
+
+      <div style="margin-top: 1.5rem; padding: 1.5rem 1.75rem; border: 1.5px solid var(--accent); background: rgba(139, 44, 13, 0.04);">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem;">→ Photographic record</div>
+        <div style="font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.4rem;">See the actual Red River rock</div>
+        <p style="color: var(--ink-soft); margin-bottom: 0.9rem;">Photographs of A-zone and B-zone core slabs, whole-round plugs, and Hassler-cell sample preparation from the laboratory characterization phase. Three wells, multiple depths, and the full workflow from archived slab to laboratory-ready plug.</p>
+        <a href="core.html" style="display: inline-block; background: var(--accent); color: var(--paper); padding: 0.6rem 1.3rem; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; font-weight: 500;">View core characterization →</a>
+      </div>
+    </section>
+
+    <section id="well">
+      <h2 class="section-head">Well Dossier <span class="label">NDIC File 22569</span></h2>
+      <p class="prose" style="margin-bottom: 1.5rem;">Public record data from the North Dakota Industrial Commission Oil and Gas Division Well Scout ticket. This is not a hypothetical wellbore — it's a specific, recently-abandoned well that represents exactly the kind of stranded infrastructure this framework is designed to repurpose.</p>
+
+      <dl class="dossier">
+        <div><dt>NDIC File</dt><dd>22569</dd></div>
+        <div><dt>API</dt><dd>33-033-00310-00-00</dd></div>
+        <div><dt>Current Name</dt><dd>Stecker 23-3</dd></div>
+        <div><dt>Original Name</dt><dd>Samuelson 23-3</dd></div>
+        <div><dt>Location</dt><dd>NESW Sec. 3, T141N, R105W, Golden Valley Co., ND (47.058062°, −103.975823°)</dd></div>
+        <div><dt>Field / Pool</dt><dd>Hoot Owl / Red River</dd></div>
+        <div><dt>Spud Date</dt><dd>9 April 2012</dd></div>
+        <div><dt>Status</dt><dd>Plugged and Abandoned, 6 August 2025 <span class="pa-flag">P&amp;A</span></dd></div>
+        <div><dt>Original Operator</dt><dd>Whiting Oil and Gas Corporation</dd></div>
+        <div><dt>Current Operator</dt><dd>Foundation Energy Management, LLC</dd></div>
+        <div><dt>Wellbore</dt><dd>Directional, Total Depth 12,400 ft MD</dd></div>
+        <div><dt>Casing</dt><dd>9.625″ @ 1,749 ft surface &nbsp;·&nbsp; 7″ @ 12,400 ft production</dd></div>
+        <div><dt>Perforations</dt><dd>11,934 – 12,054 ft (Red River)</dd></div>
+        <div><dt>Formation Top (O-RR)</dt><dd>11,732 ft</dd></div>
+        <div><dt>Initial Potential</dt><dd>272 BOPD &nbsp;·&nbsp; 431 MCFD &nbsp;·&nbsp; 100 BWPD &nbsp; <cite>(5 July 2012)</cite></dd></div>
+        <div><dt>Cumulative Production</dt><dd>79,965 BO &nbsp;·&nbsp; 11,846 MCF &nbsp;·&nbsp; 131,236 BW</dd></div>
+        <div><dt>Drill Stem Test</dt><dd>11,905 – 12,075 ft &nbsp; <cite>(recovery: 1,772 ft gas above fluid, 23.8° API oil)</cite></dd></div>
+        <div><dt>Core Data</dt><dd>Conventional slab and thin section, O-RR, 11,705 – 11,815 ft</dd></div>
+      </dl>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="credit">
+      <div>
+        <div class="author"><a href="https://www.linkedin.com/in/paul-helms-b3a19664/" target="_blank" style="color: inherit; text-decoration: underline; text-underline-offset: 3px;">Paul Helms</a></div>
+        <div class="place">B.S. Petroleum Geology · Class of 2026 · Harold Hamm School of Geology &amp; Geological Engineering · University of North Dakota</div>
+      </div>
+      <div style="text-align: right;">
+        <div style="color: var(--accent); letter-spacing: 0.12em;">CEM SHOWCASE</div>
+        <div>28 April 2026</div>
+      </div>
+    </div>
+    <hr />
+    <div class="acks">
+      <p><strong>Capstone advisor</strong> Dr. Dongmei Wang &nbsp;·&nbsp; <strong>team</strong> Peter Douglas, Delaney Vargas, Caitlin Hecker, Parker McDermott</p>
+      <p style="margin-top: 0.5rem;"><strong>Acknowledgments</strong> Energy &amp; Environmental Research Center (Brian Kalk, Charlie Gorecki, Beth Kurz) &nbsp;·&nbsp; NETL (Angela Goodman) &nbsp;·&nbsp; North Dakota Department of Mineral Resources</p>
+      <p style="margin-top: 0.5rem;"><strong>Simulator</strong> CMG GEM 2025.20 Adaptive-Implicit EOS Compositional Reservoir Simulator &nbsp;·&nbsp; <strong>grid</strong> 20 × 40 × 8 Cartesian, 5 components, field units</p>
+    </div>
+  </footer>
+
+</main>
+
+</body>
+</html>
