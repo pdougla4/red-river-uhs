@@ -498,42 +498,111 @@
     </div>
   </div>
 
-  <!-- Figures -->
-  <div class="folder open" id="folder-figures">
-    <div class="folder-header" onclick="toggleFolder('folder-figures')">
+  <!-- Figures: Operating Envelope -->
+  <div class="folder open" id="folder-figures-envelope">
+    <div class="folder-header" onclick="toggleFolder('folder-figures-envelope')">
       <span class="folder-icon">▶</span>
-      <span class="folder-name">Figures</span>
-      <span class="folder-count">6 files</span>
+      <span class="folder-name">Figures — Operating Envelope</span>
+      <span class="folder-count">2 files</span>
     </div>
     <div class="folder-contents">
       <a class="file-item" href="figures/binding_map.png" target="_blank">
         <span class="file-ext ext-png">PNG</span>
         <span class="file-name">binding_map.png</span>
-        <span class="file-desc">Mechanism binding map — q vs ΔT</span>
+        <span class="file-desc">Mechanism binding map — which safety index governs at each (q, ΔT)</span>
       </a>
+      <a class="file-item" href="figures/p90_margin_surface.png" target="_blank">
+        <span class="file-ext ext-png">PNG</span>
+        <span class="file-name">p90_margin_surface.png</span>
+        <span class="file-desc">P90 safety margin surface — conservative envelope boundary over (q, ΔT) space</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Figures: Uncertainty Quantification -->
+  <div class="folder open" id="folder-figures-uq">
+    <div class="folder-header" onclick="toggleFolder('folder-figures-uq')">
+      <span class="folder-icon">▶</span>
+      <span class="folder-name">Figures — Uncertainty Quantification</span>
+      <span class="folder-count">4 files</span>
+    </div>
+    <div class="folder-contents">
       <a class="file-item" href="figures/sa_thorough_ST_bars_overall.png" target="_blank">
         <span class="file-ext ext-png">PNG</span>
         <span class="file-name">sa_thorough_ST_bars_overall.png</span>
-        <span class="file-desc">Sobol ST — Overall (Joint Margin)</span>
+        <span class="file-desc">Sobol total-order sensitivity — joint binding margin (all indices)</span>
       </a>
       <a class="file-item" href="figures/sa_thorough_ST_bars_pgn.png" target="_blank">
         <span class="file-ext ext-png">PNG</span>
         <span class="file-name">sa_thorough_ST_bars_pgn.png</span>
-        <span class="file-desc">Sobol ST — PGN (Capillary Seal)</span>
+        <span class="file-desc">Sobol total-order sensitivity — capillary seal breach / fingering</span>
       </a>
       <a class="file-item" href="figures/sa_thorough_ST_bars_aig.png" target="_blank">
         <span class="file-ext ext-png">PNG</span>
         <span class="file-name">sa_thorough_ST_bars_aig.png</span>
-        <span class="file-desc">Sobol ST — AIG (Anhydrite Integrity)</span>
+        <span class="file-desc">Sobol total-order sensitivity — caprock thermo-mechanical fracture integrity</span>
       </a>
       <a class="file-item" href="figures/sa_thorough_ST_bars_rmg.png" target="_blank">
         <span class="file-ext ext-png">PNG</span>
         <span class="file-name">sa_thorough_ST_bars_rmg.png</span>
-        <span class="file-desc">Sobol ST — RMG (Reservoir Mechanical)</span>
+        <span class="file-desc">Sobol total-order sensitivity — near-wellbore thermal embrittlement</span>
       </a>
-      <div class="file-item" href="figures/p90_margin_surface.png" target="_blank">>
-        <span class="file-ext ext-placeholder">PNG</span>
-        <span class="file-name">p90_margin_surface.png</span>
+    </div>
+  </div>
+
+  <!-- Lab / Core Photos -->
+  <div class="folder" id="folder-lab">
+    <div class="folder-header" onclick="toggleFolder('folder-lab')">
+      <span class="folder-icon">▶</span>
+      <span class="folder-name">Lab &amp; Core Photos</span>
+      <span class="folder-count">9 files</span>
+    </div>
+    <div class="folder-contents">
+      <a class="file-item" href="paul/photos/WorkingSet_ShippingBox_overview.jpg" target="_blank">
+        <span class="file-ext ext-png">JPG</span>
+        <span class="file-name">WorkingSet_ShippingBox_overview.jpg</span>
+        <span class="file-desc">Core working set on arrival — three wells, multiple depths</span>
+      </a>
+      <a class="file-item" href="paul/photos/WorkingSet_LabTable_layout.jpg" target="_blank">
+        <span class="file-ext ext-png">JPG</span>
+        <span class="file-name">WorkingSet_LabTable_layout.jpg</span>
+        <span class="file-desc">Full sample inventory laid out — labeled slabs, all three wells</span>
+      </a>
+      <a class="file-item" href="paul/photos/WorkingSet_LabTable_wide.jpg" target="_blank">
+        <span class="file-ext ext-png">JPG</span>
+        <span class="file-name">WorkingSet_LabTable_wide.jpg</span>
+        <span class="file-desc">Wide view of lab table during core characterization</span>
+      </a>
+      <a class="file-item" href="paul/photos/Core_22569_11754ft_REDRiver_fracture.jpg" target="_blank">
+        <span class="file-ext ext-png">JPG</span>
+        <span class="file-name">Core_22569_11754ft_REDRiver_fracture.jpg</span>
+        <span class="file-desc">Stecker 23-3 Red River A zone plug — natural fracture visible, 11,754 ft</span>
+      </a>
+      <a class="file-item" href="paul/photos/Core_22569_11793ft_NMRplugs.jpg" target="_blank">
+        <span class="file-ext ext-png">JPG</span>
+        <span class="file-name">Core_22569_11793ft_NMRplugs.jpg</span>
+        <span class="file-desc">Stecker 23-3 NMR plugs — 11,793 ft</span>
+      </a>
+      <a class="file-item" href="paul/photos/Core_14070_8463ft_HasslerPlugPrep.jpg" target="_blank">
+        <span class="file-ext ext-png">JPG</span>
+        <span class="file-name">Core_14070_8463ft_HasslerPlugPrep.jpg</span>
+        <span class="file-desc">Plug drilling for Hassler permeability testing — offset well #14070, 8,463 ft</span>
+      </a>
+      <a class="file-item" href="paul/photos/Core_6798_11273ft_foilwrapped.jpg" target="_blank">
+        <span class="file-ext ext-png">JPG</span>
+        <span class="file-name">Core_6798_11273ft_foilwrapped.jpg</span>
+        <span class="file-desc">Offset well #6798 — foil-wrapped slab at 11,273 ft, preservation between sessions</span>
+      </a>
+      <div class="file-item">
+        <span class="file-ext ext-placeholder">JPG</span>
+        <span class="file-name">Hassler_setup.jpg</span>
+        <span class="file-desc">Hassler cell permeability apparatus — confining pressure, brine injection</span>
+        <span class="placeholder-badge">Coming Soon</span>
+      </div>
+      <div class="file-item">
+        <span class="file-ext ext-placeholder">JPG</span>
+        <span class="file-name">NMR_T2_setup.jpg</span>
+        <span class="file-desc">NMR T₂ spectrometer — pore size distribution and wettability characterization</span>
         <span class="placeholder-badge">Coming Soon</span>
       </div>
     </div>
@@ -592,7 +661,7 @@
     <!-- Peter -->
     <div class="team-card mine">
       <div class="team-name">Peter Douglas</div>
-      <div class="team-role">Operating Envelope / UQ</div>
+      <div class="team-role">Team Lead · Operating Envelope / UQ</div>
       <div class="team-links">
         <a class="team-btn btn-linkedin" href="https://www.linkedin.com/in/peteradouglas" target="_blank">
           ↗ LinkedIn
